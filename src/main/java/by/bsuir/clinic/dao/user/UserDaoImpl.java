@@ -16,8 +16,12 @@ public class UserDaoImpl extends AbstractCrudDao<User> implements UserDao{
     }
 
     public Optional<User> findByUsername(String login) {
-        Query query = entityManager.createQuery("From " + User.class.getSimpleName() + " U where U.username=:usernameParam");
+        Query query = entityManager.createQuery("From "
+                + User.class.getSimpleName()
+                + " U where U.username=:usernameParam");
         query.setParameter("usernameParam", login);
-        return Optional.ofNullable(query.getResultList().size() == 0 ? null : (User)query.getResultList().get(0));
+        return Optional.ofNullable(query.getResultList().size() == 0 ?
+                null
+                : (User)query.getResultList().get(0));
     }
 }

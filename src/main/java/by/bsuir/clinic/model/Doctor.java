@@ -31,6 +31,9 @@ public class Doctor extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private MedicalCategory medicalCategory;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;

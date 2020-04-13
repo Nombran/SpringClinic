@@ -39,7 +39,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public void update(@Valid @RequestBody UserDto userDto, @PathVariable Long id){
         userDto.setId(id);
-        if(service.update(userDto) == null) {
+        if(!service.update(userDto).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot update this user");
         }
     }

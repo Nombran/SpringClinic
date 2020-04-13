@@ -58,9 +58,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDto update(UserDto userDto) {
+    public Optional<UserDto> update(UserDto userDto) {
         User entity = userMapper.toEntity(userDto);
         User updated = dao.update(entity);
-        return userMapper.toDto(updated);
+        return Optional.ofNullable(userMapper.toDto(updated));
     }
 }

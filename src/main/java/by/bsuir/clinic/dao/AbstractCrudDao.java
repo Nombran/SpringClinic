@@ -28,7 +28,7 @@ public class AbstractCrudDao<T> implements CrudDao<T> {
 
     @Override
     public void delete(T t) {
-        entityManager.detach(t);
+        entityManager.remove(t);
     }
 
     @Override

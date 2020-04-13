@@ -31,10 +31,10 @@ public class AmazonClient implements FileManager {
     @Value("${amazonProperties.bucketName}")
     private String bucketName;
 
-    @Value("${amazonProperties.accessKey}")
+    @Value("#{ systemEnvironment['ACCESS_KEY'] }")
     private String accessKey;
 
-    @Value("${amazonProperties.secretKey}")
+    @Value("#{ systemEnvironment['SECRET_KEY'] }")
     private String secretKey;
 
     @PostConstruct

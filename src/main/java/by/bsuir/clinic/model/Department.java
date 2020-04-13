@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -25,6 +26,9 @@ public class Department extends BaseEntity {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
-    private Set<Doctor> doctors;
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    private Collection<Doctor> doctors;
 }

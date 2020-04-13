@@ -1,13 +1,10 @@
 package by.bsuir.clinic.dto;
 
-import by.bsuir.clinic.model.Doctor;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.Set;
+import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,11 +13,17 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DepartmentDto extends AbstractDto {
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String description;
 
+    @NotNull
     private String phone;
 
-    private Set<DoctorDto> doctors;
+    @NotNull
+    private String imageUrl;
+
+    private Collection<DoctorDto> doctors;
 }
