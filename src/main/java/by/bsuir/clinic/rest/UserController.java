@@ -1,11 +1,13 @@
 package by.bsuir.clinic.rest;
 
 import by.bsuir.clinic.dto.UserDto;
+import by.bsuir.clinic.security.jwt.JwtTokenProvider;
 import by.bsuir.clinic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,11 +18,15 @@ import java.util.List;
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
+    private JwtTokenProvider tokenProvider;
+
     private final UserService service;
 
     @Autowired
-    public UserController(UserService service) {
+    public UserController(UserService service,
+                          JwtTokenProvider tokenProvider) {
         this.service = service;
+        this.tokenProvider = tokenProvider;
     }
 
     @GetMapping
@@ -35,6 +41,7 @@ public class UserController {
         service.save(user);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or authentication.principal.id == #id")
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void update(@Valid @RequestBody UserDto userDto, @PathVariable Long id){
@@ -47,6 +54,16 @@ public class UserController {
     @GetMapping(value = "/{id}")
     public UserDto findById(@PathVariable Long id) {
         return service.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+    }
+
+    @GetMapping(value = "/me")
+    public UserDto findByToken(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = tokenProvider.getTokenFromHeader(authorizationHeader);
+        System.out.println(token);
+        String username = tokenProvider.getUsername(token);
+        return service.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)
         );
     }

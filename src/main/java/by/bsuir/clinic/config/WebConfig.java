@@ -24,7 +24,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:9000");
+        registry.addMapping("/**")
+        .allowedOrigins("*")
+        .allowedHeaders("Content-Type" , "Access-Control-Allow-Origin" ,
+                "Access-Control-Allow-Headers" , "Authorization", "X-Requested-With",
+                "requestId", "Correlation-Id")
+        .allowedMethods("GET", "PUT", "POST" , "DELETE");
     }
 
     @Bean(name = "multipartResolver")

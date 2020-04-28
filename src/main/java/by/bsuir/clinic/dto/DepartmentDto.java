@@ -22,7 +22,6 @@ public class DepartmentDto extends AbstractDto {
     @NotNull
     private String phone;
 
-    @NotNull
     private String imageUrl;
 
     private Collection<DoctorDto> doctors;

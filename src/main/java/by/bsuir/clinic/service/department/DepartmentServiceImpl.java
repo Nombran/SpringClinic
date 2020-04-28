@@ -61,9 +61,11 @@ public class DepartmentServiceImpl implements DepartmentService{
                     + "not found");
         }
         Department departmentBeforeUpdate = optionalDepartment.get();
-        if(!departmentBeforeUpdate.getImageUrl().equals(departmentDto.getImageUrl())) {
-            String imageUrlBefore = departmentBeforeUpdate.getImageUrl();
-            fileManager.deleteFileFromS3Bucket(imageUrlBefore);
+        if(departmentBeforeUpdate.getImageUrl() != null) {
+            if (!departmentBeforeUpdate.getImageUrl().equals(departmentDto.getImageUrl())) {
+                String imageUrlBefore = departmentBeforeUpdate.getImageUrl();
+                fileManager.deleteFileFromS3Bucket(imageUrlBefore);
+            }
         }
         Department withUpdates = departmentMapper.toEntity(departmentDto);
         Department updated = dao.update(withUpdates);
@@ -74,7 +76,9 @@ public class DepartmentServiceImpl implements DepartmentService{
         Optional<Department> optionalDepartment = dao.findDepartmentById(id);
         Department forDelete = optionalDepartment.orElseThrow(IllegalArgumentException::new);
         String imageUrl = forDelete.getImageUrl();
-        fileManager.deleteFileFromS3Bucket(imageUrl);
+        if(imageUrl != null) {
+            fileManager.deleteFileFromS3Bucket(imageUrl);
+        }
         dao.delete(forDelete);
     }
 }

@@ -1,8 +1,6 @@
 package by.bsuir.clinic.dto;
 
-import by.bsuir.clinic.model.Department;
 import by.bsuir.clinic.model.MedicalCategory;
-import by.bsuir.clinic.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +24,10 @@ public class DoctorDto extends AbstractDto {
 
     private MedicalCategory medicalCategory;
 
-    private UserDto user;
+    private String imageUrl;
 
-    private DepartmentDto department;
+    private Long userId;
+
+    private Long departmentId;
+
 }
