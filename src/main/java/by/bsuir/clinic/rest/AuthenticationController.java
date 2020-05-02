@@ -1,10 +1,9 @@
 package by.bsuir.clinic.rest;
 
 import by.bsuir.clinic.dto.AuthenticationRequestDto;
-import by.bsuir.clinic.dto.RoleDto;
 import by.bsuir.clinic.dto.UserDto;
 import by.bsuir.clinic.security.jwt.JwtTokenProvider;
-import by.bsuir.clinic.service.UserService;
+import by.bsuir.clinic.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -26,10 +25,10 @@ public class AuthenticationController {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserService userService) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider, UserServiceImpl userService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;

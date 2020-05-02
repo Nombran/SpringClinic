@@ -16,18 +16,15 @@ import javax.annotation.PostConstruct;
 @Component
 public class DoctorMapper extends AbstractMapper<Doctor, DoctorDto> {
     private final ModelMapper mapper;
-    private final DoctorDao doctorDao;
     private final DepartmentDao departmentDao;
     private final UserDao userDao;
 
 
     @Autowired
     public DoctorMapper(ModelMapper mapper,
-                            DoctorDao doctorDao,
                             DepartmentDao departmentDao,
                             UserDao userDao) {
         super(Doctor.class, DoctorDto.class);
-        this.doctorDao = doctorDao;
         this.mapper = mapper;
         this.departmentDao = departmentDao;
         this.userDao = userDao;
@@ -59,6 +56,8 @@ public class DoctorMapper extends AbstractMapper<Doctor, DoctorDto> {
                 ()-> new MapperException("Error while mapping:" +
                         " user with id = " + userId + " not found")
         );
+        destination.setDepartment(department);
+        destination.setUser(user);
     }
 
     @Override

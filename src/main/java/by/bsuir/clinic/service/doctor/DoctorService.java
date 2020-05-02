@@ -11,4 +11,5 @@ public interface DoctorService {
     void save(DoctorDto doctor);
     Optional<DoctorDto> update(DoctorDto doctor);
     void delete(Long id);
+    Optional<DoctorDto> findDoctorByUserId(long userId);
 }

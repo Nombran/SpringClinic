@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +28,14 @@ public class DoctorController {
     }
 
     @GetMapping
-    public List<DoctorDto> findAll() {
-       return doctorService.findAll();
+    public List<DoctorDto> find(@RequestParam(required = false, name = "userId") Long userId) {
+       if(userId != null) {
+           Optional<DoctorDto> doctorDto = doctorService.findDoctorByUserId(userId);
+           return Collections.singletonList(doctorDto.orElseThrow(
+                   () -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+       } else {
+           return doctorService.findAll();
+       }
     }
 
     @GetMapping(value = "/{id}")
@@ -46,7 +53,7 @@ public class DoctorController {
     @PutMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public void update(@RequestBody DoctorDto doctorDto, @PathVariable(value = "id") Long id) {
-        doctorDto.setUserId(id);
+        doctorDto.setId(id);
         Optional<DoctorDto> updated = doctorService.update(doctorDto);
         if(!updated.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT,"Cannot update doctor");

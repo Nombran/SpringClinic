@@ -1,11 +1,8 @@
 package by.bsuir.clinic.security;
 
 import by.bsuir.clinic.dto.UserDto;
-import by.bsuir.clinic.model.User;
-import by.bsuir.clinic.security.jwt.JwtUser;
 import by.bsuir.clinic.security.jwt.JwtUserFactory;
-import by.bsuir.clinic.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import by.bsuir.clinic.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,10 +14,10 @@ import java.util.Optional;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public JwtUserDetailsService(UserService userService) {
+    public JwtUserDetailsService(UserServiceImpl userService) {
         this.userService = userService;
     }
 

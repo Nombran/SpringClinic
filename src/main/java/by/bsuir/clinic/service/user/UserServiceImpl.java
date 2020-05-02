@@ -1,4 +1,4 @@
-package by.bsuir.clinic.service;
+package by.bsuir.clinic.service.user;
 
 import by.bsuir.clinic.dao.role.RoleDao;
 import by.bsuir.clinic.dao.user.UserDaoImpl;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Transactional
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService{
 
     private UserDaoImpl dao;
 
@@ -26,10 +26,10 @@ public class UserService {
     private RoleDao roleDao;
 
     @Autowired
-    public UserService(UserDaoImpl dao,
-                       PasswordEncoder passwordEncoder,
-                       UserMapper userMapper,
-                       RoleDao roleDao) {
+    public UserServiceImpl(UserDaoImpl dao,
+                           PasswordEncoder passwordEncoder,
+                           UserMapper userMapper,
+                           RoleDao roleDao) {
 
         this.dao = dao;
         this.passwordEncoder = passwordEncoder;

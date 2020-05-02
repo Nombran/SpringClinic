@@ -57,4 +57,9 @@ public class DoctorServiceImpl implements DoctorService {
         Doctor doctorForDelete = doctor.orElseThrow(IllegalArgumentException::new);
         dao.delete(doctorForDelete);
     }
+
+    @Override
+    public Optional<DoctorDto> findDoctorByUserId(long userId) {
+        return dao.findDoctorByUserId(userId).map(mapper::toDto);
+    }
 }
