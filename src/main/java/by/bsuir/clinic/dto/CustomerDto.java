@@ -1,7 +1,6 @@
 package by.bsuir.clinic.dto;
 
-import by.bsuir.clinic.model.MedicalCard;
-import by.bsuir.clinic.model.User;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +22,7 @@ public class CustomerDto extends AbstractDto{
 
     private String phone;
 
-    private MedicalCardDto medicalCard;
+    private Long medicalCardId;
 
-    private UserDto user;
-
+    private Long userId;
 }

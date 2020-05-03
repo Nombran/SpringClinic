@@ -1,0 +1,11 @@
+package by.bsuir.clinic.dao.card;
+
+import by.bsuir.clinic.dao.AbstractCrudDao;
+import by.bsuir.clinic.model.MedicalCard;
+
+public class MedicalCardDaoImpl extends AbstractCrudDao<MedicalCard> implements MedicalCardDao {
+
+    public MedicalCardDaoImpl() {
+        setClazz(MedicalCard.class);
+    }
+}
