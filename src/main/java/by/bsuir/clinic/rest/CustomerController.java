@@ -24,7 +24,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerDto> find(@RequestParam(name = "userId") Long userId) {
+    public List<CustomerDto> find(@RequestParam(name = "userId", required = false) Long userId) {
         if(userId != null) {
             CustomerDto customer = service.findCustomerByUserId(userId).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
@@ -57,5 +57,8 @@ public class CustomerController {
         );
     }
 
+    @GetMapping(value = "/{id}/card")
+    public void getMedicalCard(@PathVariable(name = "id") Long userId) {
 
+    }
 }

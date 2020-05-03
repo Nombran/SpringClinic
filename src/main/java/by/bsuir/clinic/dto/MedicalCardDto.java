@@ -17,7 +17,7 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MedicalCardDto extends AbstractDto {
 
-    private CustomerDto customer;
+    private Long customerId;
 
     private String registration;
 
