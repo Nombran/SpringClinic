@@ -1,7 +1,6 @@
 package by.bsuir.clinic.rest;
 
 import by.bsuir.clinic.dto.CustomerDto;
-import by.bsuir.clinic.model.Customer;
 import by.bsuir.clinic.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
