@@ -29,5 +29,4 @@ public class DoctorDto extends AbstractDto {
     private Long userId;
 
     private Long departmentId;
-
 }
