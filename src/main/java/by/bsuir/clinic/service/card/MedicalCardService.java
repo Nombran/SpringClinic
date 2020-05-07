@@ -1,7 +1,6 @@
 package by.bsuir.clinic.service.card;
 
 import by.bsuir.clinic.dto.MedicalCardDto;
-import by.bsuir.clinic.model.MedicalCard;
 
 import java.util.List;
 import java.util.Optional;

@@ -40,8 +40,10 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public void save(DoctorDto doctor) {
-        dao.save(mapper.toEntity(doctor));
+    public long save(DoctorDto doctor) {
+        Doctor entity = mapper.toEntity(doctor);
+        dao.save(entity);
+        return entity.getId();
     }
 
     @Override

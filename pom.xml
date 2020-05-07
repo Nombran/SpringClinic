@@ -96,9 +96,9 @@
     </dependency>
 
     <dependency>
-      <groupId>postgresql</groupId>
+      <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>9.1-901-1.jdbc4</version>
+      <version>42.2.12</version>
     </dependency>
 
     <dependency>
@@ -208,7 +208,7 @@
         <dependency>
           <groupId>org.postgresql</groupId>
           <artifactId>postgresql</artifactId>
-          <version>9.4-1206-jdbc42</version>
+          <version>42.2.12</version>
         </dependency>
         <dependency>
           <groupId>org.apache.tomcat</groupId>

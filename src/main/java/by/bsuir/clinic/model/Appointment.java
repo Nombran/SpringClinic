@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 @Table(name = "appointments")
 public class Appointment extends BaseEntity{
 
-    @OneToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
@@ -30,10 +30,9 @@ public class Appointment extends BaseEntity{
     @Column(name = "diagnosis")
     private String diagnosis;
 
+    @Column(name = "recommendations")
+    private String recommendations;
+
     @Column(name = "reason")
     private String reason;
-
-    @ManyToOne
-    @JoinColumn(name = "card_id")
-    private MedicalCard medicalCard;
 }

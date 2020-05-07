@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -41,7 +40,4 @@ public class MedicalCard extends BaseEntity{
 
     @Column(name = "birthday")
     private LocalDateTime birthday;
-
-    @OneToMany(mappedBy = "medicalCard", fetch = FetchType.EAGER)
-    private Set<Appointment> appointments;
 }

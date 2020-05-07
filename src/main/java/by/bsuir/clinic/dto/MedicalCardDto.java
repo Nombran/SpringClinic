@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -32,6 +31,4 @@ public class MedicalCardDto extends AbstractDto {
     private String allergies;
 
     private LocalDateTime birthday;
-
-    private Set<AppointmentDto> appointments;
 }

@@ -1,11 +1,12 @@
 package by.bsuir.clinic.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -22,7 +23,9 @@ public class CustomerDto extends AbstractDto{
 
     private String phone;
 
-    private Long medicalCardId;
+    private MedicalCardDto medicalCardDto;
 
     private Long userId;
+
+    private List<AppointmentDto> appointments;
 }

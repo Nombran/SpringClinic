@@ -1,6 +1,7 @@
 package by.bsuir.clinic.rest;
 
 import by.bsuir.clinic.dto.CustomerDto;
+import by.bsuir.clinic.dto.MedicalCardDto;
 import by.bsuir.clinic.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/customers")
@@ -57,7 +59,26 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{id}/card")
-    public void getMedicalCard(@PathVariable(name = "id") Long userId) {
+    public MedicalCardDto getMedicalCard(@PathVariable(name = "id") Long userId) {
+        Optional<MedicalCardDto> medicalCard = service.getMedicalCard(userId);
+        return medicalCard.orElseThrow(
+                ()-> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+    }
 
+    @PostMapping(value = "/{id}/card")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createCard(@RequestBody MedicalCardDto medicalCardDto,
+                           @PathVariable(name = "id")Long customerId) {
+        service.setMedicalCard(medicalCardDto, customerId);
+    }
+
+    @PutMapping(value = "/{id}/card")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateCustomerCard(@RequestBody MedicalCardDto medicalCardDto,
+                                   @PathVariable(name = "id")long customerId) {
+        service.updateCustomerMedicalCard(medicalCardDto, customerId).orElseThrow(
+                ()-> new ResponseStatusException(HttpStatus.CONFLICT)
+        );
     }
 }

@@ -2,14 +2,18 @@ package by.bsuir.clinic.service.department;
 
 import by.bsuir.clinic.dao.department.DepartmentDao;
 import by.bsuir.clinic.dto.DepartmentDto;
+import by.bsuir.clinic.dto.DoctorDto;
 import by.bsuir.clinic.mapper.DepartmentMapper;
 import by.bsuir.clinic.mapper.DepartmentWithDoctorsMapper;
+import by.bsuir.clinic.mapper.DoctorMapper;
 import by.bsuir.clinic.model.Department;
+import by.bsuir.clinic.model.Doctor;
 import by.bsuir.clinic.utils.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,28 +24,42 @@ public class DepartmentServiceImpl implements DepartmentService{
 
     private final DepartmentDao dao;
     private final DepartmentMapper departmentMapper;
-    private final DepartmentWithDoctorsMapper withDoctorsMapper;
+    private final DoctorMapper doctorMapper;
     private final FileManager fileManager;
 
     @Autowired
     public DepartmentServiceImpl(DepartmentDao dao,
                                  FileManager fileManager,
                                  DepartmentMapper departmentMapper,
-                                 DepartmentWithDoctorsMapper withDoctorsMapper) {
+                                 DoctorMapper doctorMapper) {
         this.dao = dao;
         this.fileManager = fileManager;
         this.departmentMapper = departmentMapper;
-        this.withDoctorsMapper = withDoctorsMapper;
+        this.doctorMapper = doctorMapper;
     }
 
     @Override
     public Optional<DepartmentDto> findDepartmentById(Long id) {
-        return dao.findDepartmentById(id).map(withDoctorsMapper::toDto);
+        Optional<Department> departmentOptional = dao.findDepartmentById(id);
+        if(departmentOptional.isPresent()) {
+           Department department = departmentOptional.get();
+           Collection<DoctorDto> doctors = department.getDoctors()
+                   .stream()
+                   .map(doctorMapper::toDto)
+                   .collect(Collectors.toList());
+           DepartmentDto departmentDto = departmentMapper.toDto(department);
+           departmentDto.setDoctors(doctors);
+           return Optional.of(departmentDto);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public void save(DepartmentDto dto) {
-        dao.save(departmentMapper.toEntity(dto));
+    public long save(DepartmentDto dto) {
+        Department entity = departmentMapper.toEntity(dto);
+        dao.save(entity);
+        return entity.getId();
     }
 
     @Override

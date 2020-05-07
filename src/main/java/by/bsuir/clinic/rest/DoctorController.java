@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -46,8 +47,9 @@ public class DoctorController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void create(@RequestBody DoctorDto doctorDto) {
-        doctorService.save(doctorDto);
+    public Map create(@RequestBody DoctorDto doctorDto) {
+       long id =  doctorService.save(doctorDto);
+       return Collections.singletonMap("doctorId", id);
     }
 
     @PutMapping(value = "/{id}")

@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.web.cors.CorsConfiguration;
 
 
 @Configuration
@@ -24,8 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private RestAuthenticationEntryPoint entryPoint;
 
-    private static final String ADMIN_ENDPOINT = "/panel/**";
+    private static final String GET_DEPARTMENTS_ENDPOINT = "/departments";
+    private static final String GET_DOCTORS_ENDPOINT = "/doctors";
     private static final String LOGIN_ENDPOINT = "/auth/**";
+
 
     @Autowired
     public SecurityConfig(JwtTokenProvider jwtTokenProvider, RestAuthenticationEntryPoint entryPoint) {
@@ -48,7 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider, entryPoint))
                 .and().cors();
@@ -58,5 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web)
             throws Exception {
         web.ignoring().antMatchers(LOGIN_ENDPOINT);
+        web.ignoring().antMatchers(HttpMethod.GET, GET_DEPARTMENTS_ENDPOINT);
+        web.ignoring().antMatchers(HttpMethod.GET, GET_DOCTORS_ENDPOINT);
     };
 }

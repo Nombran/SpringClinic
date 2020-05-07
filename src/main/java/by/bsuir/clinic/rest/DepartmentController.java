@@ -5,12 +5,16 @@ import by.bsuir.clinic.service.department.DepartmentService;
 import by.bsuir.clinic.utils.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -35,8 +39,9 @@ public class DepartmentController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void create(@Valid @RequestBody DepartmentDto departmentDto) {
-        service.save(departmentDto);
+    public Map create(@Valid @RequestBody DepartmentDto departmentDto) {
+        long id = service.save(departmentDto);
+        return Collections.singletonMap("departmentId", id);
     }
 
     @GetMapping

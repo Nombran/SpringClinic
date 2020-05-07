@@ -14,7 +14,7 @@ import java.util.Collection;
 @Component
 public class DepartmentMapper extends AbstractMapper<Department, DepartmentDto> {
 
-    private final ModelMapper mapper;
+    protected final ModelMapper mapper;
     private final DoctorDao doctorDao;
 
     @Autowired
