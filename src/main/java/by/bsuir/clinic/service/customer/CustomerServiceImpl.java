@@ -57,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(customer -> {
                     CustomerDto customerDto = customerMapper.toDto(customer);
                     customerDto.setAppointments(null);
-                    customerDto.setMedicalCardDto(null);
+                    customerDto.setMedicalCard(null);
                     return customerDto;
                 })
                 .collect(Collectors.toList());

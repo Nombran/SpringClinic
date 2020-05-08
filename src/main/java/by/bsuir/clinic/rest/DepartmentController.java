@@ -4,6 +4,7 @@ import by.bsuir.clinic.dto.DepartmentDto;
 import by.bsuir.clinic.service.department.DepartmentService;
 import by.bsuir.clinic.utils.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
@@ -84,5 +85,11 @@ public class DepartmentController {
             reason="There is no department with such id")
     @ExceptionHandler(IllegalArgumentException.class)
     public void departmentNotFound() {
+    }
+
+    @ResponseStatus(value = HttpStatus.CONFLICT,
+            reason = "Department is not clear")
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public void cannotDeleteDepartment() {
     }
 }

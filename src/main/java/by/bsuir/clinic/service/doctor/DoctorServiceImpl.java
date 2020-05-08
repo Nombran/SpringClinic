@@ -4,6 +4,7 @@ import by.bsuir.clinic.dao.doctor.DoctorDao;
 import by.bsuir.clinic.dto.DoctorDto;
 import by.bsuir.clinic.mapper.DoctorMapper;
 import by.bsuir.clinic.model.Doctor;
+import by.bsuir.clinic.utils.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,15 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorDao dao;
     private final DoctorMapper mapper;
+    private final FileManager fileManager;
 
     @Autowired
     public DoctorServiceImpl(DoctorDao dao,
-                             DoctorMapper mapper) {
+                             DoctorMapper mapper,
+                             FileManager fileManager) {
         this.dao = dao;
         this.mapper = mapper;
+        this.fileManager = fileManager;
     }
 
     @Override
@@ -57,6 +61,10 @@ public class DoctorServiceImpl implements DoctorService {
     public void delete(Long id) {
         Optional<Doctor> doctor = dao.find(id);
         Doctor doctorForDelete = doctor.orElseThrow(IllegalArgumentException::new);
+        String imageUrl = doctorForDelete.getImageUrl();
+        if(imageUrl != null) {
+            fileManager.deleteFileFromS3Bucket(imageUrl);
+        }
         dao.delete(doctorForDelete);
     }
 

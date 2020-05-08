@@ -23,7 +23,7 @@ public class CustomerDto extends AbstractDto{
 
     private String phone;
 
-    private MedicalCardDto medicalCardDto;
+    private MedicalCardDto medicalCard;
 
     private Long userId;
 

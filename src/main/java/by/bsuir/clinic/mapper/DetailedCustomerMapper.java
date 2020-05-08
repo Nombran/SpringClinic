@@ -5,7 +5,6 @@ import by.bsuir.clinic.dao.card.MedicalCardDao;
 import by.bsuir.clinic.dao.user.UserDao;
 import by.bsuir.clinic.dto.AppointmentDto;
 import by.bsuir.clinic.dto.CustomerDto;
-import by.bsuir.clinic.model.Appointment;
 import by.bsuir.clinic.model.Customer;
 import by.bsuir.clinic.model.MedicalCard;
 import by.bsuir.clinic.model.User;
@@ -47,7 +46,7 @@ public class DetailedCustomerMapper extends AbstractMapper<Customer, CustomerDto
     public void setupMapper() {
         mapper.createTypeMap(Customer.class, CustomerDto.class)
                 .addMappings(m -> m.skip(CustomerDto::setUserId)).setPostConverter(toDtoConverter())
-                .addMappings(m -> m.skip(CustomerDto::setMedicalCardDto)).setPostConverter(toDtoConverter())
+                .addMappings(m -> m.skip(CustomerDto::setMedicalCard)).setPostConverter(toDtoConverter())
                 .addMappings(m -> m.skip(CustomerDto::setAppointments)).setPostConverter(toDtoConverter());
         mapper.createTypeMap(CustomerDto.class, Customer.class)
                 .addMappings(m -> m.skip(Customer::setUser)).setPostConverter(toEntityConverter())
@@ -61,7 +60,7 @@ public class DetailedCustomerMapper extends AbstractMapper<Customer, CustomerDto
         destination.setUserId(userId);
         MedicalCard medicalCard = source.getMedicalCard();
         if(medicalCard!=null) {
-            destination.setMedicalCardDto(medicalCardMapper.toDto(medicalCard));
+            destination.setMedicalCard(medicalCardMapper.toDto(medicalCard));
         }
         List<AppointmentDto> appointments = source.getAppointments()
                 .stream()
