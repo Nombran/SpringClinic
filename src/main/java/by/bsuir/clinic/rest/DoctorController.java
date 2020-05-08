@@ -1,15 +1,18 @@
 package by.bsuir.clinic.rest;
 
 import by.bsuir.clinic.dto.DoctorDto;
+import by.bsuir.clinic.dto.TicketForDoctorDto;
 import by.bsuir.clinic.service.doctor.DoctorService;
 import by.bsuir.clinic.utils.FileManager;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -89,5 +92,21 @@ public class DoctorController {
             reason="There is no doctor with such id")
     @ExceptionHandler(IllegalArgumentException.class)
     public void doctorNotFound() {
+    }
+
+    @GetMapping(value = "/{id}/appointments")
+    public List<TicketForDoctorDto> findDoctorAppointments(
+            @PathVariable(name = "id")long doctorId,
+            @RequestParam(name = "date", required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                    LocalDate day){
+        if(!doctorService.findById(doctorId).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        if(day != null) {
+            return doctorService.findDoctorAppointmentsByDay(doctorId, day);
+        } else {
+            return doctorService.findDoctorAppointments(doctorId);
+        }
     }
 }

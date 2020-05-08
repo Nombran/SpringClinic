@@ -41,9 +41,11 @@ public class AppointmentMapper extends AbstractMapper<Appointment, AppointmentDt
 
     @Override
     public void mapSpecificFields(Appointment source, AppointmentDto destination) {
-        long customerId = source.getCustomer().getId();
+        if(source.getCustomer()!=null) {
+            long customerId = source.getCustomer().getId();
+            destination.setCustomerId(customerId);
+        }
         long doctorId = source.getDoctor().getId();
-        destination.setCustomerId(customerId);
         destination.setDoctorId(doctorId);
     }
 

@@ -1,6 +1,5 @@
 package by.bsuir.clinic.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -15,11 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AppointmentDto extends AbstractDto {
+public class TicketForDoctorDto extends AbstractDto {
 
-    private Long customerId;
-
-    private Long doctorId;
+    private CustomerDto customerDto;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateTime;

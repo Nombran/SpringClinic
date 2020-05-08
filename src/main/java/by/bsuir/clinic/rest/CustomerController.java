@@ -2,6 +2,7 @@ package by.bsuir.clinic.rest;
 
 import by.bsuir.clinic.dto.CustomerDto;
 import by.bsuir.clinic.dto.MedicalCardDto;
+import by.bsuir.clinic.dto.TicketForCustomerDto;
 import by.bsuir.clinic.service.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import java.util.Optional;
 public class CustomerController {
 
     private final CustomerService service;
-
 
     @Autowired
     public CustomerController(CustomerService service) {
@@ -70,6 +70,9 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createCard(@RequestBody MedicalCardDto medicalCardDto,
                            @PathVariable(name = "id")Long customerId) {
+        if(service.getMedicalCard(customerId).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Card already exists");
+        }
         service.setMedicalCard(medicalCardDto, customerId);
     }
 
@@ -80,5 +83,13 @@ public class CustomerController {
         service.updateCustomerMedicalCard(medicalCardDto, customerId).orElseThrow(
                 ()-> new ResponseStatusException(HttpStatus.CONFLICT)
         );
+    }
+
+    @GetMapping(value = "/{id}/appointments")
+    public List<TicketForCustomerDto> getCustomerTickets(@PathVariable(name = "id")Long customerId) {
+        service.findCustomerById(customerId).orElseThrow(
+                ()->new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+        return service.getCustomerTickets(customerId);
     }
 }

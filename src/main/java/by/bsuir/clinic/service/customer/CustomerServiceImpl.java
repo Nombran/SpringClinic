@@ -1,12 +1,15 @@
 package by.bsuir.clinic.service.customer;
 
+import by.bsuir.clinic.dao.appointment.AppointmentDao;
 import by.bsuir.clinic.dao.card.MedicalCardDao;
 import by.bsuir.clinic.dao.customer.CustomerDao;
 import by.bsuir.clinic.dto.CustomerDto;
 import by.bsuir.clinic.dto.MedicalCardDto;
+import by.bsuir.clinic.dto.TicketForCustomerDto;
 import by.bsuir.clinic.mapper.CustomerMapper;
 import by.bsuir.clinic.mapper.DetailedCustomerMapper;
 import by.bsuir.clinic.mapper.MedicalCardMapper;
+import by.bsuir.clinic.mapper.TicketForCustomerMapper;
 import by.bsuir.clinic.model.Customer;
 import by.bsuir.clinic.model.MedicalCard;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +29,24 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerMapper customerMapper;
     private final MedicalCardMapper cardMapper;
     private final MedicalCardDao medicalCardDao;
+    private final AppointmentDao appointmentDao;
+    private final TicketForCustomerMapper ticketForCustomerMapper;
 
     @Autowired
     public CustomerServiceImpl(CustomerDao customerDao,
                                DetailedCustomerMapper detailedCustomerMapper,
                                MedicalCardMapper medicalCardMapper,
                                MedicalCardDao medicalCardDao,
-                               CustomerMapper customerMapper) {
+                               CustomerMapper customerMapper,
+                               AppointmentDao appointmentDao,
+                               TicketForCustomerMapper ticketForCustomerMapper) {
         this.customerDao = customerDao;
         this.detailedCustomerMapper = detailedCustomerMapper;
         this.cardMapper = medicalCardMapper;
         this.medicalCardDao = medicalCardDao;
         this.customerMapper = customerMapper;
+        this.appointmentDao = appointmentDao;
+        this.ticketForCustomerMapper = ticketForCustomerMapper;
     }
 
     @Override
@@ -134,6 +143,14 @@ public class CustomerServiceImpl implements CustomerService {
             }
         }
 
+    }
+
+    @Override
+    public List<TicketForCustomerDto> getCustomerTickets(long customerId) {
+        return appointmentDao.findAppointmentByCustomerId(customerId)
+                .stream()
+                .map(ticketForCustomerMapper::toDto)
+                .collect(Collectors.toList());
     }
 
 
