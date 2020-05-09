@@ -4,7 +4,6 @@ import by.bsuir.clinic.dto.DoctorDto;
 import by.bsuir.clinic.dto.TicketForDoctorDto;
 import by.bsuir.clinic.service.doctor.DoctorService;
 import by.bsuir.clinic.utils.FileManager;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -99,7 +98,7 @@ public class DoctorController {
             @PathVariable(name = "id")long doctorId,
             @RequestParam(name = "date", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                    LocalDate day){
+                    LocalDate day) {
         if(!doctorService.findById(doctorId).isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

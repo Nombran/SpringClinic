@@ -26,10 +26,10 @@ public class SpringConfig {
         return mapper;
     }
 
-    @Bean
-    public javax.validation.Validator localValidatorFactoryBean() {
-        return new LocalValidatorFactoryBean();
-    }
+//    @Bean
+//    public javax.validation.Validator localValidatorFactoryBean() {
+//        return new LocalValidatorFactoryBean();
+//    }
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer properties() {

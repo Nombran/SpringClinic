@@ -26,13 +26,13 @@ public class PersistenceJPAConfig{
     @Value("${db.driver}")
     private String driverClassName;
 
-    @Value("${db.url}")
+    @Value("#{ systemEnvironment['JDBC_DATABASE_URL'] }")
     private String dbUrl;
 
-    @Value("${db.username}")
+    @Value("#{ systemEnvironment['JDBC_DATABASE_USERNAME'] }")
     private String dbUsername;
 
-    @Value("${db.password}")
+    @Value("#{ systemEnvironment['JDBC_DATABASE_PASSWORD'] }")
     private String dbPassword;
 
     @Value("${db.dialect}")
@@ -53,13 +53,13 @@ public class PersistenceJPAConfig{
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        String username = System.getenv("JDBC_DATABASE_USERNAME");
-        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+//        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+//        String username = System.getenv("JDBC_DATABASE_USERNAME");
+//        String password = System.getenv("JDBC_DATABASE_PASSWORD");
         dataSource.setDriverClassName(driverClassName);
         dataSource.setUrl(dbUrl);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
         return dataSource;
     }
 

@@ -52,6 +52,12 @@ public class AppointmentController {
         }
     }
 
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void delete(@PathVariable(name = "id") long id) {
+        service.delete(id);
+    }
+
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DoctorNotFoundException.class)
