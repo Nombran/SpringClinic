@@ -77,7 +77,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 ()-> new DoctorNotFoundException("Doctor with id + " + doctorId + "not exists")
         );
         LocalDateTime endTime = startTime.plusMinutes(ticketsNumber * gap);
-        List<Appointment> appointmentsBetweenTime = dao.findAppointmentsBetweenTime(startTime, endTime);
+        List<Appointment> appointmentsBetweenTime = dao.findAppointmentsByDoctorIdBetweenTime(doctorId,startTime, endTime);
         if(appointmentsBetweenTime.size() == 0) {
             LocalDateTime ticketTime = startTime;
             for(int i=0; i<ticketsNumber; i++) {
