@@ -51,15 +51,18 @@ public class AppointmentMapper extends AbstractMapper<Appointment, AppointmentDt
 
     @Override
     public void mapSpecificFields(AppointmentDto source, Appointment destination) {
-        long customerId = source.getCustomerId();
+        if(source.getCustomerId() != null) {
+            long customerId = source.getCustomerId();
+            Customer customer = customerDao.find(customerId).orElseThrow(
+                    ()-> new MapperException("Customer with id " + customerId + " doesnt exist")
+            );
+            destination.setCustomer(customer);
+        }
         long doctorId = source.getDoctorId();
-        Customer customer = customerDao.find(customerId).orElseThrow(
-                ()-> new MapperException("Customer with id " + customerId + " doesnt exist")
-        );
+
         Doctor doctor = doctorDao.find(doctorId).orElseThrow(
                 ()-> new MapperException("Doctor with id " + doctorId + "doesnt exist")
         );
-        destination.setCustomer(customer);
         destination.setDoctor(doctor);
     }
 }
